@@ -1,3 +1,6 @@
+query1="select * from cus"
+style1="-----------------------------------------------\n"
+
 def select_mn(e):
     global st, lb1, n, p, nm, sl1
     p = lb1.curselection()
@@ -5,7 +8,6 @@ def select_mn(e):
     sl1 = ''
     from datetime import date
     now = time.localtime()
-    d1 = date(now[0], now[1], now[2])
     cur.execute("select * from med")
     for i in cur:
         if x == int(p[0]):
@@ -29,7 +31,7 @@ def append2bill():
 
 def blue():
     global st, c, cur, named, addd, t, vc_id
-    cur.execute("select * from cus")
+    cur.execute(query1)
     for i in cur:
         if vc_id.get() != '' and int(vc_id.get()) == i[2]:
             named = i[0]
@@ -46,7 +48,6 @@ def blue():
 def make_bill():
     global t, c, B, cur, st, names, qty, sl, named, addd, name1, add, det, vc_id
     price = [0.0] * 10
-    q = 0
     det = ['', '', '', '', '', '', '', '']
     det[2] = str(sl)
     for i in range(len(sl)):
@@ -69,7 +70,7 @@ def make_bill():
     m += "                                  No :%s\n\n" % det[5]
     m += " EVANZ MEDICAL STORE COMPANY\n"
     m += " BINALBAGAN BRANCH, NEGROS OCCIDENTAL\n\n"
-    m += "-----------------------------------------------\n"
+    m += style1
     if t == 1:
         m += "Name: %s\n" % named
         m += "Address: %s\n" % addd
@@ -84,16 +85,16 @@ def make_bill():
         m += "Address: %s\n" % add.get()
         det[0] = name1.get()
         det[1] = add.get()
-    m += "-----------------------------------------------\n"
+    m += style1
     m += "Product                      Qty.       Price\n"
-    m += "-----------------------------------------------\n"
+    m += style1
     for i in range(len(sl)):
         if names[i] != 'nil':
             s1 = ' '
             s1 = (names[i]) + (s1 * (27 - len(names[i]))) + s1 * (3 - len(qty[i])) + qty[i] + s1 * (
                         15 - len(str(price[i]))) + str(price[i]) + '\n'
             m += s1
-    m += "\n-----------------------------------------------\n"
+    m += style1
     if t == 1:
         ntotal = total * 0.8
         m += 'Total' + (' ' * 25) + (' ' * (15 - len(str(total)))) + str(total) + '\n'
@@ -115,7 +116,6 @@ def make_bill():
     bill = open(B, 'w')
     bill.write(m)
     bill.close()
-    cb = ('cus_name', 'cus_add', 'items', 'Total_cost', 'bill_dt', 'bill_no', 'bill', 'val_id')
     cur.execute('insert into bills values(?,?,?,?,?,?,?,?)',
                 (det[0], det[1], det[2], det[3], det[4], det[5], det[6], det[7]))
     c.commit()
