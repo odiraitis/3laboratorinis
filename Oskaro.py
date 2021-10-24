@@ -1,7 +1,7 @@
 query1="select * from cus"
 style1="-----------------------------------------------\n"
 
-def SelectOptionFromMeniu(e):
+def select_option_from_meniu(e):
     global st, lb1, n, p, nm, sl1
     p = lb1.curselection()
     x = 0
@@ -19,7 +19,7 @@ def SelectOptionFromMeniu(e):
     nm = n[x]
     print(nm)
 
-def AppendToBill():
+def append_to_bill():
     global st, names, nm, qty, sl, cur, c, sl1
     sl.append(sl1)
     names.append(nm)
@@ -27,7 +27,7 @@ def AppendToBill():
     print(qty)
     print(sl[len(sl) - 1], names[len(names) - 1], qty[len(qty) - 1])
 
-def GetCustomerInfo():
+def get_customer_info():
     global st, c, cur, named, addd, t, vc_id
     cur.execute(query1)
     for i in cur:
@@ -42,7 +42,7 @@ def GetCustomerInfo():
             break
     c.commit()
 
-def CreateBill():
+def create_bill():
     global t, c, B, cur, st, names, qty, sl, named, addd, name1, add, det, vc_id
     price = [0.0] * 10
     det = ['', '', '', '', '', '', '', '']
