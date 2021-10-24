@@ -1,7 +1,7 @@
 query1="select * from cus"
 style1="-----------------------------------------------\n"
 
-def select_mn(e):
+def SelectOptionFromMeniu(e):
     global st, lb1, n, p, nm, sl1
     p = lb1.curselection()
     x = 0
@@ -19,8 +19,7 @@ def select_mn(e):
     nm = n[x]
     print(nm)
 
-
-def append2bill():
+def AppendToBill():
     global st, names, nm, qty, sl, cur, c, sl1
     sl.append(sl1)
     names.append(nm)
@@ -28,8 +27,7 @@ def append2bill():
     print(qty)
     print(sl[len(sl) - 1], names[len(names) - 1], qty[len(qty) - 1])
 
-
-def blue():
+def GetCustomerInfo():
     global st, c, cur, named, addd, t, vc_id
     cur.execute(query1)
     for i in cur:
@@ -44,8 +42,7 @@ def blue():
             break
     c.commit()
 
-
-def make_bill():
+def CreateBill():
     global t, c, B, cur, st, names, qty, sl, named, addd, name1, add, det, vc_id
     price = [0.0] * 10
     det = ['', '', '', '', '', '', '', '']
@@ -105,7 +102,6 @@ def make_bill():
     else:
         m += 'Total' + (' ' * 25) + (' ' * (12 - len(str(total)))) + 'PHP ' + str(total) + '\n'
         det[3] = str(total)
-
     m += "-----------------------------------------------\n\n"
     m += "Dealer 's signature:___________________________\n"
     m += "===============================================\n"
