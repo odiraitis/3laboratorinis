@@ -1,9 +1,9 @@
 query1="select * from cus"
 style1="-----------------------------------------------\n"
+global MeniuOptionName, MeniuOption, Quantity, sl, cur, c, named, addd, t, vc_id, B
 
 def select_option_from_meniu(e):
-    global st, lb1, n, p, nm, sl1
-    p = lb1.curselection()
+    p = p.curselection()
     x = 0
     sl1 = ''
     from datetime import date
@@ -16,19 +16,18 @@ def select_option_from_meniu(e):
         x += 1
     c.commit()
     print(sl1)
-    nm = n[x]
-    print(nm)
+    MeniuOptionName = n[x]
+    print(MeniuOptionName)
 
 def append_to_bill():
-    global st, names, nm, qty, sl, cur, c, sl1
     sl.append(sl1)
-    names.append(nm)
-    qty.append(qtys.get())
-    print(qty)
-    print(sl[len(sl) - 1], names[len(names) - 1], qty[len(qty) - 1])
+    MeniuOption.append(MeniuOptionName)
+    Quantity.append(qtys.get())
+    print(Quantity)
+    print(sl[len(sl) - 1], MeniuOption[len(MeniuOption) - 1], Quantity[len(Quantity) - 1])
 
 def get_customer_info():
-    global st, c, cur, named, addd, t, vc_id
+    
     cur.execute(query1)
     for i in cur:
         if vc_id.get() != '' and int(vc_id.get()) == i[2]:
@@ -43,18 +42,17 @@ def get_customer_info():
     c.commit()
 
 def create_bill():
-    global t, c, B, cur, st, names, qty, sl, named, addd, name1, add, det, vc_id
     price = [0.0] * 10
     det = ['', '', '', '', '', '', '', '']
     det[2] = str(sl)
     for i in range(len(sl)):
-        print(sl[i], ' ', qty[i], ' ', names[i])
-    for k in range(len(sl)):
-        cur.execute("select * from med where sl_no=?", (sl[k],))
+        print(sl[i], ' ', Quantity[i], ' ', MeniuOption[i])
+    for j in range(len(sl)):
+        cur.execute("select * from med where sl_no=?", (sl[j],))
         for i in cur:
-            price[k] = int(qty[k]) * float(i[4])
-            print(qty[k], price[k])
-            cur.execute("update med set qty_left=? where sl_no=?", (int(i[3]) - int(qty[k]), sl[k]))
+            price[j] = int(Quantity[j]) * float(i[4])
+            print(Quantity[j], price[j])
+            cur.execute("update med set QuantityLeft=? where sl_no=?", (int(i[3]) - int(Quantity[j]), sl[j]))
         c.commit()
     det[5] = str(random.randint(100, 999))
     B = 'bill_' + str(det[5]) + '.txt'
@@ -83,12 +81,12 @@ def create_bill():
         det[0] = name1.get()
         det[1] = add.get()
     m += style1
-    m += "Product                      Qty.       Price\n"
+    m += "Product                      Quantity.       Price\n"
     m += style1
     for i in range(len(sl)):
-        if names[i] != 'nil':
+        if MeniuOption[i] != 'nil':
             s1 = ' '
-            s1 = (names[i]) + (s1 * (27 - len(names[i]))) + s1 * (3 - len(qty[i])) + qty[i] + s1 * (
+            s1 = (MeniuOption[i]) + (s1 * (27 - len(MeniuOption[i]))) + s1 * (3 - len(Quantity[i])) + Quantity[i] + s1 * (
                         15 - len(str(price[i]))) + str(price[i]) + '\n'
             m += s1
     m += style1
